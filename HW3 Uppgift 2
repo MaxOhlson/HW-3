@@ -1,0 +1,34 @@
+/**
+ * Finds all pairs of adjacent words in a given text.
+ * @example
+ * adjacent_pairs(list("time", "for", "a", "break"))
+ * // returns list(["time", "for"], ["for", "a"], ["a", "break"])
+ * adjacent_pairs(list("time"))   // returns list()
+ * @param {List} text - List of words (strings)
+ * @returns {List} List of pairs, one pair for each pair of words that appear
+ *     after one another (in that order) in `text`
+ */
+function adjacent_pairs(text) {
+    // Check if the text has fewer than two words, in which case there are no adjacent pairs
+    return is_null(text) || is_null(tail(text)) 
+        ? null 
+        : pair(pair(head(text), head(tail(text))), adjacent_pairs(tail(text)));
+    }
+    
+/**
+ * Counts how often pairs of words appear in a text.
+ * The order of words in a pair do not matter, i.e. ["a", "b"] is the same
+ * as ["b", "a"] and any one of these pairs may appear in the result.
+ * @example
+ * pairs_count(pairs_count(list("time", "for", "a", "break", "a", "break",
+ *                              "for", "a", "while")))
+ * // returns
+ * // list([["for", "time"], 1], [["a", "break"], 3], [["break", "for"], 1],
+ * //      [["a", "for"], 2], [["a", "while"], 1])
+ * @param {List} text - List of words (strings).
+ * @returns {List} List of pairs, each pair consist of a pair of words that
+ *     appear next to each other in `text` and a count of how often it appears
+ */
+function pairs_count(text) {
+    // your code here
+}
