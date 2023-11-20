@@ -1,0 +1,65 @@
+const ex_text = list("a", "rose", "is", "a", "rose",
+                     "but", "so", "is", "a", "rose");
+/**
+ * Counts the number of unique words in a list of words.
+ * @example
+ * num_unique_words(list("a", "rose", "is", "a", "rose"))  // returns 3
+ * num_unique_words(list())   // returns 0
+ * @param {List} text - List of words (strings)
+ * @returns {number} - Number of unique words in `text`
+ */
+function num_unique_words(text) {
+    return length(word_tally(text));
+}
+
+/**
+ * Tallies the words in a text.
+ * @example
+ * word_tally(list("a", "rose", "is", "a", "rose",
+ *                 "but", "so", "is", "a", "rose"));
+ * // returns list(["but", 1], ["so", 1], ["is", 2], ["a", 3], ["rose", 3])
+ * word_tally(list())   // returns list()
+ * @param {List} text - List of words (strings)
+ * @returns {List} - List of pairs, one pair for each unique word in `text` with
+ *     a count of how often that word appears in `text`.
+ */
+function word_tally(text) {
+    return is_null(text)
+        ? null   // Return an empty list if input is empty
+        : pair(pair(head(text), times_in_list(head(text), text)), word_tally(remove_all(head(text), text)));
+}
+
+// The ammount of times str appears in list 
+// @example
+// times_in_list("rose",ex_text);
+// returns 3 
+// @param (string) the string that is looked for
+// @param {list} list of strings that is looked through
+// @returns number of times str is in list
+function times_in_list(str, list) {
+    return is_null(list) ? 0 : (head(list) === str ? 1 : 0) + times_in_list(str, tail(list));
+}
+
+/**
+ * Identifies the most commonly used words in a text and their count.
+ * @example
+ * most_used_words(list("a", "rose", "is", "a", "rose",
+ *                     "but", "so", "is", "a", "rose"))
+ * // returns list(["rose", 3], ["a", 3])
+ * most_used_words(list())   // returns list()
+ * @param {List} text - List of words (strings)
+ * @returns {List} - List of pairs, one pair for each distinct most commonly
+ *     used word in `text` with a count of how often that word appears in `text`.
+ */
+function most_used_words(text) {
+    const tally = word_tally(text);
+    return is_null(tally)
+        ? null  // Return an empty list if input is empty
+        : filter(pair => tail(pair) === max_word_count(tally), tally);
+}
+
+// Helper function for most_used_words
+function max_word_count(tally) {
+    return accumulate((pair, maxCount) => math_max(tail(pair), maxCount), 0, tally);
+}
+display_list(most_used_words(ex_text));
